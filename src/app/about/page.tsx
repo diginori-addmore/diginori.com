@@ -44,27 +44,6 @@ export default function About() {
           </h1>
         </header>
 
-        <nav className="flex w-full mb-12 sticky top-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm">
-          <a
-            href="#about"
-            className="flex-1 text-center font-bold text-2xl md:text-3xl text-white py-2 transition-all duration-300 hover:bg-white hover:text-black"
-          >
-            About
-          </a>
-          <a
-            href="#history"
-            className="flex-1 text-center font-bold text-2xl md:text-3xl text-white py-2 transition-all duration-300 hover:bg-white hover:text-black"
-          >
-            History
-          </a>
-          <a
-            href="#location"
-            className="flex-1 text-center font-bold text-2xl md:text-3xl text-white py-2 transition-all duration-300 hover:bg-white hover:text-black"
-          >
-            Location
-          </a>
-        </nav>
-
         <hr className="border-gray-700"></hr>
 
         <div className="space-y-10 text-lg text-gray-300 leading-relaxed">

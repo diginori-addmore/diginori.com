@@ -68,7 +68,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <GTM />
         </Suspense>
-        <nav className="bg-gray-800 p-4">
+        <nav className="bg-gray-800 p-4 z-50">
           <div className="container mx-auto flex justify-between">
             <div className="flex space-x-4">
               {navLinks.map((link) =>
