@@ -29,7 +29,7 @@ export default function AboutSection() {
 
 
     return (
-        <>
+        <div className="space-y-10 text-lg text-white leading-relaxed">
             <br id="about"></br>
             <div className="flex flex-col md:flex-row items-center mb-12 w-full gap-8 animate-section">
                 {/* 이미지 */}
@@ -105,22 +105,20 @@ export default function AboutSection() {
                 <div className="w-full md:w-1/2">
                     <Image
                         src="/diginori_logo.webp"
-                        alt="디지노리 팀원"
+                        alt="디지노리 로고"
                         width={1024}
                         height={576}
                         className="rounded-lg shadow-md w-full h-auto"
-                        priority
                     />
                 </div>
 
                 <div className="w-full md:w-1/2">
                     <Image
                         src="/gukak-hs.webp"
-                        alt="디지노리 팀원"
+                        alt="국립국악고등학교"
                         width={1024}
                         height={576}
                         className="rounded-lg shadow-md w-full h-auto"
-                        priority
                     />
                 </div>
             </div>
@@ -140,12 +138,11 @@ export default function AboutSection() {
                 찾아오시는 길
             </p>
 
-            <section>
+            <section className="p-6 text-center animate-section">
                 <p className="text-lg leading-relaxed text-white">
                     경기도 과천시 과천대로7길 65 과천상상자이타워 B동 126호
                 </p>
             </section>
-
-        </>
+        </div>
     );
 }

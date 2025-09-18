@@ -2,30 +2,30 @@
 import MediaArtAnimation from "@/components/MediaArtAnimation";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import Link from 'next/link';
 
 export default function Home() {
-  const textRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    // Animate the text after the main animation settles
+    // Button animation
     gsap.fromTo(
-      textRef.current,
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 1.5, delay: 5.5, ease: "power3.out" }
+      buttonRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 1, delay: 5.5, ease: "power3.out" }
     );
+
   }, []);
 
   return (
-    <main className="relative min-h-screen w-full h-full overflow-hidden flex items-center justify-center">
-      <MediaArtAnimation />
-      <div
-        ref={textRef}
-        className="absolute w-full p-8 text-center text-white mt-[30vh] sm:mt-[40vh]"
-      >
-        <p className="text-sm md:text-base max-w-2xl mx-auto leading-relaxed" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.8)'}}>
-          국내 최초 1호 1인 창조기업으로 시작해 대통령 표창을 받은 디지노리는, 이제 AI 디지털 시대의 새로운 놀이를 지역 청년들과 함께 만들어갑니다. 모두와 함께 놀고, 나누고, 협업합니다.
-        </p>
+    <main className="relative min-h-screen w-full h-full overflow-hidden flex items-center justify-center flex-col bg-black">
+      <div className="fixed top-0 left-0 w-full h-full">
+        <MediaArtAnimation />
       </div>
+      {/* The h1 title is removed to prevent conflict with the animation component */}
+      <Link href="/about" passHref ref={buttonRef} className="opacity-0 absolute bottom-16 z-10 px-6 py-3 rounded-full text-white border border-white hover:bg-white hover:text-black transition-all duration-300">
+          더 알아보기
+      </Link>
     </main>
   );
 }
