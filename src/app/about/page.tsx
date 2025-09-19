@@ -1,5 +1,4 @@
 "use client";
-import type { Metadata } from "next";
 import AboutSection from "./AboutSection";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";

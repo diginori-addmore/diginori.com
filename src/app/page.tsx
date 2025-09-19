@@ -19,11 +19,11 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen w-full h-full overflow-hidden flex items-center justify-center flex-col bg-black">
-      <div className="fixed top-0 left-0 w-full h-full">
+      <div className="fixed top-0 left-0 w-full h-full" style={{ zIndex: 5 }}>
         <MediaArtAnimation />
       </div>
       {/* The h1 title is removed to prevent conflict with the animation component */}
-      <Link href="/about" passHref ref={buttonRef} className="opacity-0 absolute bottom-16 z-10 px-6 py-3 rounded-full text-white border border-white hover:bg-white hover:text-black transition-all duration-300">
+      <Link href="/about" passHref ref={buttonRef} className="opacity-0 absolute bottom-16 px-6 py-3 rounded-full text-white border border-white hover:bg-white hover:text-black transition-all duration-300" style={{ zIndex: 20 }}>
           더 알아보기
       </Link>
     </main>

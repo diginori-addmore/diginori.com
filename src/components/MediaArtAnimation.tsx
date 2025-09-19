@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
 
 const MediaArtAnimation: React.FC = () => {
@@ -17,7 +16,7 @@ const MediaArtAnimation: React.FC = () => {
 
     // Scene
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000000, 0.001);
+    // Fog removed for clearer text
 
     // Camera
     const camera = new THREE.PerspectiveCamera(
@@ -34,15 +33,7 @@ const MediaArtAnimation: React.FC = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     currentMount.appendChild(renderer.domElement);
 
-    // OrbitControls
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.screenSpacePanning = false;
-    controls.minDistance = 100;
-    controls.maxDistance = 1500;
-    controls.maxPolarAngle = Math.PI / 2 + 0.2;
-    controls.minPolarAngle = Math.PI / 2 - 0.2;
+    // OrbitControls removed for text-only component
 
 
     const createTextParticles = (
@@ -152,10 +143,10 @@ const MediaArtAnimation: React.FC = () => {
           void main() {
             float strength = distance(gl_PointCoord, vec2(0.5));
             strength = 1.0 - step(0.5, strength);
-            gl_FragColor = vec4(vColor, strength);
+            // Make text more solid and bright
+            gl_FragColor = vec4(vColor, strength * 1.0);
           }
         `,
-        blending: THREE.AdditiveBlending,
         transparent: true,
         depthTest: false,
       });
@@ -168,55 +159,34 @@ const MediaArtAnimation: React.FC = () => {
 
     // Words
     const diginoriYOffset = 100;
-    const diginoriParticles = createTextParticles("디지노리", { 
+    const diginoriParticles = createTextParticles("디지노리", {
         xOffset: 0,
         yOffset: diginoriYOffset,
-        color: "#ffffff"
+        color: new THREE.Color(1.0, 1.0, 1.0) // Brighter white
     });
-    const plusParticles = createTextParticles("+", { 
-        xOffset: isMobile ? 240 : 410, 
-        yOffset: diginoriYOffset + (isMobile ? 30 : 50), 
+    const plusParticles = createTextParticles("+", {
+        xOffset: isMobile ? 240 : 410,
+        yOffset: diginoriYOffset + (isMobile ? 30 : 50),
         fontSize: isMobile ? 80 : 120,
-        color: "#ffff00"
+        color: new THREE.Color(1.0, 1.0, 0.0) // Brighter yellow
     });
 
-    // Stars
-    const starCount = isMobile ? 5000 : 20000;
-    const starGeometry = new THREE.BufferGeometry();
-    const starPositions = [];
-    for (let i = 0; i < starCount; i++) {
-      starPositions.push(
-        (Math.random() - 0.5) * 4000,
-        (Math.random() - 0.5) * 4000,
-        (Math.random() - 0.5) * 4000
-      );
-    }
-    starGeometry.setAttribute(
-      "position",
-      new THREE.Float32BufferAttribute(starPositions, 3)
-    );
-    const starMaterial = new THREE.PointsMaterial({
-      color: 0xaaaaaa,
-      size: 1.5,
-      transparent: true,
-      opacity: 0.5,
-    });
-    const stars = new THREE.Points(starGeometry, starMaterial);
-    scene.add(stars);
+    // Stars removed - now handled by BackgroundStars component
+
 
     // Animation
     const clock = new THREE.Clock();
     const animate = () => {
       const elapsedTime = clock.getElapsedTime();
 
-      stars.rotation.y = elapsedTime * 0.01;
+      // No star animation needed - handled by BackgroundStars component
+
       if(!isMobile){
           camera.position.x += (mouse.current.x * 200 - camera.position.x) * 0.05;
           camera.position.y += (-mouse.current.y * 200 - camera.position.y) * 0.05;
       }
       camera.lookAt(scene.position);
 
-      controls.update();
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     };
@@ -288,7 +258,7 @@ const MediaArtAnimation: React.FC = () => {
   }, []);
 
   return (
-    <div ref={mountRef} className="absolute top-0 left-0 w-full h-full z-0" />
+    <div ref={mountRef} className="absolute top-0 left-0 w-full h-full z-0" style={{ pointerEvents: 'none' }} />
   );
 };
 
