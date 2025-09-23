@@ -175,10 +175,7 @@ const MediaArtAnimation: React.FC = () => {
 
 
     // Animation
-    const clock = new THREE.Clock();
     const animate = () => {
-      const elapsedTime = clock.getElapsedTime();
-
       // No star animation needed - handled by BackgroundStars component
 
       if(!isMobile){

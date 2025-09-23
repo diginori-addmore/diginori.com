@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import gsap from "gsap";
 import Image from "next/image";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -8,16 +8,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutSection() {
     useEffect(() => {
-        gsap.utils.toArray(".animate-section").forEach((section: any) => {
+        gsap.utils.toArray(".animate-section").forEach((section) => {
             gsap.fromTo(
-                section,
+                section as gsap.TweenTarget,
                 { opacity: 0, y: 50 },
                 {
                     opacity: 1,
                     y: 0,
                     duration: 0.7,
                     scrollTrigger: {
-                        trigger: section,
+                        trigger: section as Element,
                         start: "top 80%",
                         once: true,
                         toggleActions: "play none none none",
