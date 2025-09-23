@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutSection() {
     useEffect(() => {
-        gsap.utils.toArray(".animate-section").forEach((section: any) => {
+        gsap.utils.toArray(".animate-section").forEach((section: HTMLElement) => {
             gsap.fromTo(
                 section,
                 { opacity: 0, y: 50 },
