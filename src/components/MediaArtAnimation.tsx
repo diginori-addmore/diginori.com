@@ -79,9 +79,13 @@ const MediaArtAnimation: React.FC = () => {
           for (let x = 0; x < canvasWidth; x+=step) {
             const alpha = imageData[(y * canvasWidth + x) * 4 + 3];
             if (alpha > 128) {
+              // Add random offset to break grid pattern
+              const randomX = (Math.random() - 0.5) * step * 0.8;
+              const randomY = (Math.random() - 0.5) * step * 0.8;
+
               finalPositions.push(
-                (x - canvasWidth / 2) + xOffset,
-                (canvasHeight / 2 - y) + yOffset,
+                (x + randomX - canvasWidth / 2) + xOffset,
+                (canvasHeight / 2 - y - randomY) + yOffset,
                 0
               );
               initialPositions.push(
