@@ -6,6 +6,7 @@ import GTM from "@/components/GTM";
 import BackgroundStars from "@/components/BackgroundStars";
 import "./globals.css";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,38 +31,45 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   const navLinks = [
     { href: "/", label: "홈" },
     { href: "/about", label: "회사 소개" },
+
     {
       href: "https://github.com/orbital-pet/diginori.com.public/wiki/Press",
       label: "언론 보도",
       external: true,
     },
+
     {
-      href: "https://github.com/orbital-pet/diginori.com.public/issues?q=is%3Aissue%20state%3Aopen%20label%3A%EC%B1%84%EC%9A%A9",
+      // href: "https://github.com/orbital-pet/diginori.com.public/issues?q=is%3Aissue%20state%3Aopen%20label%3A%EC%B1%84%EC%9A%A9",
+      href: "/recruit",
       label: "채용",
-      external: true,
+      // external: true,
     },
+
     {
       href: "https://github.com/orbital-pet/diginori.com.public/wiki/IR",
       label: "IR",
       external: true,
     },
+
     {
       href: "https://blog.diginori.com",
       label: "BLOG",
       external: true,
     },
+
     {
       href: "https://orbital-pet.diginori.com",
       label: "PET",
       external: true,
     },
+
   ];
 
   return (
-
     <html lang="en" className="scroll-smooth">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -70,7 +78,7 @@ export default function RootLayout({
           <GTM />
         </Suspense>
         <BackgroundStars />
-        <nav className="bg-gray-800 p-4 z-50 relative">
+        <nav className="bg-gray-800 p-4 z-10 relative">
           <div className="container mx-auto flex justify-between">
             <div className="flex space-x-4">
               {navLinks.map((link) =>
@@ -84,7 +92,9 @@ export default function RootLayout({
                   >
                     {link.label}
                   </a>
+
                 ) : (
+
                   <Link
                     key={link.href}
                     href={link.href}
@@ -101,4 +111,6 @@ export default function RootLayout({
       </body>
     </html>
   );
+
 }
+
