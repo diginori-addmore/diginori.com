@@ -140,7 +140,7 @@ export default function AboutSection() {
 
             <section className="p-6 text-center animate-section">
                 <p className="text-lg leading-relaxed text-white">
-                    경기도 과천시 과천대로7길 65 과천상상자이타워 B동 126호
+                    경기 과천시 과천대로7나길 37 3층 M04호
                 </p>
             </section>
         </div>
