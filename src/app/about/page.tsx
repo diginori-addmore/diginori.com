@@ -41,11 +41,35 @@ export default function About() {
             <span ref={titleRef} className="inline-block">디지노리</span>
             <sup ref={plusRef} className="text-4xl md:text-6xl text-yellow-300 opacity-0 inline-block ml-2">+</sup>
           </h1>
+          <h2 className="text-1xl md:text-2xl font-medium text-white">
+            청년 데이터분석 팀과 함께
+          </h2>
         </header>
+
+        <nav className="flex w-full mb-12">
+          <a
+            href="#about"
+            className="flex-1 text-center font-bold text-2xl md:text-3xl text-white py-2 transition-all duration-300 hover:bg-white hover:text-black"
+          >
+            About
+          </a>
+          <a
+            href="#history"
+            className="flex-1 text-center font-bold text-2xl md:text-3xl text-white py-2 transition-all duration-300 hover:bg-white hover:text-black"
+          >
+            History
+          </a>
+          <a
+            href="#location"
+            className="flex-1 text-center font-bold text-2xl md:text-3xl text-white py-2 transition-all duration-300 hover:bg-white hover:text-black"
+          >
+            Location
+          </a>
+        </nav>
 
         <hr className="border-gray-700"></hr>
 
-        <div className="space-y-10 text-lg text-gray-300 leading-relaxed">
+        <div className="space-y-10 text-lg text-gray-300 leading-relaxed relative z-50">
           <AboutSection />
         </div>
       </div>

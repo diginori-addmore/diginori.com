@@ -29,7 +29,7 @@ export default function AboutSection() {
 
 
     return (
-        <div className="space-y-10 text-lg text-white leading-relaxed">
+        <div className="space-y-10 text-lg text-white leading-relaxed relative z-50">
             <br id="about"></br>
             <div className="flex flex-col md:flex-row items-center mb-12 w-full gap-8 animate-section">
                 {/* 이미지 */}
@@ -39,7 +39,7 @@ export default function AboutSection() {
                         alt="디지노리 팀원"
                         width={1024}
                         height={576}
-                        className="rounded-lg shadow-md w-full h-auto"
+                        className="rounded-lg shadow-md w-full h-auto bg-black relative z-10"
                         priority
                     />
                 </div>
@@ -108,7 +108,7 @@ export default function AboutSection() {
                         alt="디지노리 로고"
                         width={1024}
                         height={576}
-                        className="rounded-lg shadow-md w-full h-auto"
+                        className="rounded-lg shadow-md w-full h-auto bg-black relative z-10"
                     />
                 </div>
 
@@ -118,7 +118,7 @@ export default function AboutSection() {
                         alt="국립국악고등학교"
                         width={1024}
                         height={576}
-                        className="rounded-lg shadow-md w-full h-auto"
+                        className="rounded-lg shadow-md w-full h-auto bg-black relative z-10"
                     />
                 </div>
             </div>
