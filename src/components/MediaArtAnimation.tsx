@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
 
 const MediaArtAnimation: React.FC = () => {
@@ -17,7 +16,7 @@ const MediaArtAnimation: React.FC = () => {
 
     // Scene
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000000, 0.001);
+    // Fog removed for clearer text
 
     // Camera
     const camera = new THREE.PerspectiveCamera(
@@ -34,23 +33,17 @@ const MediaArtAnimation: React.FC = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     currentMount.appendChild(renderer.domElement);
 
-    // OrbitControls
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.screenSpacePanning = false;
-    controls.minDistance = 100;
-    controls.maxDistance = 1500;
-    controls.maxPolarAngle = Math.PI / 2 + 0.2;
-    controls.minPolarAngle = Math.PI / 2 - 0.2;
+    // OrbitControls removed for text-only component
 
 
     const createTextParticles = (
-      text: string
+      text: string,
+      options: { xOffset?: number, yOffset?: number, fontSize?: number, color?: string | THREE.Color } = {}
     ): THREE.Points => {
+      const { xOffset = 0, yOffset = 0, fontSize: customFontSize, color: singleColor } = options;
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
-      const fontSize = isMobile ? 120 : 200;
+      const fontSize = customFontSize || (isMobile ? 120 : 200);
       const canvasWidth = fontSize * text.length;
       const canvasHeight = fontSize;
       canvas.width = canvasWidth;
@@ -73,23 +66,26 @@ const MediaArtAnimation: React.FC = () => {
       const finalPositions = [];
       const initialPositions = [];
       const colors = [];
-      const colorPalette = [
+      const multiColorPalette = [
         new THREE.Color("#00ffff"), // Cyan
         new THREE.Color("#ff00ff"), // Magenta
         new THREE.Color("#00ff00"), // Lime
       ];
 
       const step = isMobile ? 3 : 2;
-      const yOffset = 100; // Position text in upper-middle
 
       if (imageData) {
         for (let y = 0; y < canvasHeight; y+=step) {
           for (let x = 0; x < canvasWidth; x+=step) {
             const alpha = imageData[(y * canvasWidth + x) * 4 + 3];
             if (alpha > 128) {
+              // Add random offset to break grid pattern
+              const randomX = (Math.random() - 0.5) * step * 0.8;
+              const randomY = (Math.random() - 0.5) * step * 0.8;
+
               finalPositions.push(
-                (x - canvasWidth / 2),
-                (canvasHeight / 2 - y) + yOffset,
+                (x + randomX - canvasWidth / 2) + xOffset,
+                (canvasHeight / 2 - y - randomY) + yOffset,
                 0
               );
               initialPositions.push(
@@ -97,7 +93,13 @@ const MediaArtAnimation: React.FC = () => {
                 (Math.random() - 0.5) * 2000,
                 (Math.random() - 0.5) * 2000
               );
-              const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+              
+              let color;
+              if (singleColor) {
+                  color = new THREE.Color(singleColor);
+              } else {
+                  color = multiColorPalette[Math.floor(Math.random() * multiColorPalette.length)];
+              }
               colors.push(color.r, color.g, color.b);
             }
           }
@@ -145,10 +147,10 @@ const MediaArtAnimation: React.FC = () => {
           void main() {
             float strength = distance(gl_PointCoord, vec2(0.5));
             strength = 1.0 - step(0.5, strength);
-            gl_FragColor = vec4(vColor, strength);
+            // Make text more solid and bright
+            gl_FragColor = vec4(vColor, strength * 1.0);
           }
         `,
-        blending: THREE.AdditiveBlending,
         transparent: true,
         depthTest: false,
       });
@@ -160,56 +162,51 @@ const MediaArtAnimation: React.FC = () => {
     };
 
     // Words
-    const particleSystem = createTextParticles("디지노리");
-
-    // Stars
-    const starCount = isMobile ? 5000 : 20000;
-    const starGeometry = new THREE.BufferGeometry();
-    const starPositions = [];
-    for (let i = 0; i < starCount; i++) {
-      starPositions.push(
-        (Math.random() - 0.5) * 4000,
-        (Math.random() - 0.5) * 4000,
-        (Math.random() - 0.5) * 4000
-      );
-    }
-    starGeometry.setAttribute(
-      "position",
-      new THREE.Float32BufferAttribute(starPositions, 3)
-    );
-    const starMaterial = new THREE.PointsMaterial({
-      color: 0xaaaaaa,
-      size: 1.5,
-      transparent: true,
-      opacity: 0.5,
+    const diginoriYOffset = 100;
+    const diginoriParticles = createTextParticles("디지노리", {
+        xOffset: 0,
+        yOffset: diginoriYOffset,
+        color: new THREE.Color(1.0, 1.0, 1.0) // Brighter white
     });
-    const stars = new THREE.Points(starGeometry, starMaterial);
-    scene.add(stars);
+    const plusParticles = createTextParticles("+", {
+        xOffset: isMobile ? 240 : 410,
+        yOffset: diginoriYOffset + (isMobile ? 30 : 50),
+        fontSize: isMobile ? 80 : 120,
+        color: new THREE.Color(1.0, 1.0, 0.0) // Brighter yellow
+    });
+
+    // Stars removed - now handled by BackgroundStars component
+
 
     // Animation
-    const clock = new THREE.Clock();
     const animate = () => {
-      const elapsedTime = clock.getElapsedTime();
+      // No star animation needed - handled by BackgroundStars component
 
-      stars.rotation.y = elapsedTime * 0.01;
       if(!isMobile){
           camera.position.x += (mouse.current.x * 200 - camera.position.x) * 0.05;
           camera.position.y += (-mouse.current.y * 200 - camera.position.y) * 0.05;
       }
       camera.lookAt(scene.position);
 
-      controls.update();
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     };
     animate();
 
     // GSAP Animation Trigger
-    const material = particleSystem.userData.material as THREE.ShaderMaterial;
-    gsap.to(material.uniforms.uTime, {
+    const diginoriMaterial = diginoriParticles.userData.material as THREE.ShaderMaterial;
+    gsap.to(diginoriMaterial.uniforms.uTime, {
         value: 1,
         duration: 5,
         delay: 1,
+        ease: 'power4.inOut'
+    });
+
+    const plusMaterial = plusParticles.userData.material as THREE.ShaderMaterial;
+    gsap.to(plusMaterial.uniforms.uTime, {
+        value: 1,
+        duration: 3,
+        delay: 6, 
         ease: 'power4.inOut'
     });
 
@@ -228,8 +225,10 @@ const MediaArtAnimation: React.FC = () => {
       camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-      const material = particleSystem.userData.material as THREE.ShaderMaterial;
-      material.uniforms.uSize.value = (isMobile ? 6.0 : 7.0) * Math.min(window.devicePixelRatio, 2);
+      const diginoriMaterial = diginoriParticles.userData.material as THREE.ShaderMaterial;
+      diginoriMaterial.uniforms.uSize.value = (isMobile ? 6.0 : 7.0) * Math.min(window.devicePixelRatio, 2);
+      const plusMaterial = plusParticles.userData.material as THREE.ShaderMaterial;
+      plusMaterial.uniforms.uSize.value = (isMobile ? 6.0 : 7.0) * Math.min(window.devicePixelRatio, 2);
     };
     window.addEventListener("resize", handleResize);
 
@@ -260,7 +259,7 @@ const MediaArtAnimation: React.FC = () => {
   }, []);
 
   return (
-    <div ref={mountRef} className="absolute top-0 left-0 w-full h-full z-0" />
+    <div ref={mountRef} className="absolute top-0 left-0 w-full h-full z-0" style={{ pointerEvents: 'none' }} />
   );
 };
 

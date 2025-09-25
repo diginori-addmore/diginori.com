@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { Suspense } from "react";
 import GTM from "@/components/GTM";
+import BackgroundStars from "@/components/BackgroundStars";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -60,14 +61,16 @@ export default function RootLayout({
   ];
 
   return (
-    <html lang="en">
+
+    <html lang="en" className="scroll-smooth">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Suspense fallback={null}>
           <GTM />
         </Suspense>
-        <nav className="bg-gray-800 p-4">
+        <BackgroundStars />
+        <nav className="bg-gray-800 p-4 z-50 relative">
           <div className="container mx-auto flex justify-between">
             <div className="flex space-x-4">
               {navLinks.map((link) =>
